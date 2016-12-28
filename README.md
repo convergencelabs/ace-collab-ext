@@ -23,7 +23,7 @@ var editor = ace.edit("editor");
 var curMgr = new AceCollabExt.AceMultiSelectionManager(editor);
 
 // Add a new remote cursor with an id of "uid1", and a color of orange.
-curMgr.addCursor("uid1", "User 1", "orange", position);
+curMgr.addCursor("uid1", "User 1", "orange", {row: 0, column: 10});
 
 // Set cursor for "uid1" to index 10.
 curMgr.setCursor("uid1", 10);
@@ -42,14 +42,22 @@ AceRanges.  A single range is common for normal selection, but multiple ranges
 are needed to support block selection.
 
 ```javascript
+var AceRange = ace.require("ace/range");
+
 var editor = ace.edit("editor");
 var selMgr = new AceCollabExt.AceMultiSelectionManager(editor);
 
+// A two-line block selection
+var initialRanges = [
+  new AceRange(0, 0, 0, 10),
+  new AceRange(1, 0, 1, 10),
+];
+
 // Add a new remote view indicator with an id of "uid1", and a color of orange.
-selMgr.addSelection("uid1", "User 1", "orange", ranges);
+selMgr.addSelection("uid1", "User 1", "orange", initialRanges);
 
 // Set the selection to a new range.
-selMgr.setSelection("uid1", range);
+selMgr.setSelection("uid1", new AceRange(10, 0, 11, 10));
 
 // Nullify the selection without removing the marker.
 selMgr.clearSelection("uid1");
@@ -73,7 +81,7 @@ radarView.addView("uid1", "user1", "orange", 0, 20, 0);
 radarView.setViewRows("uid1", 10, 40);
 
 // Set the row location of the cursor to line 10.
-radarView.setCursoRow("uid1", 10);
+radarView.setCursorRow("uid1", 10);
 
 // Remove the remote view indicator for "uid1".
 radarView.removeView("uid1");
