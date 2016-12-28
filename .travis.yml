@@ -1,0 +1,9 @@
+language: node_js
+
+node_js:
+  - "6.1"
+
+before_script:
+  - npm install -g gulp
+
+script: npm dist
