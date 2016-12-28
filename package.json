@@ -30,7 +30,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "ace-builds": "1.2.6",
+    "ace-builds": "1.2.5",
     "babel-core": "6.21.0",
     "babel-eslint": "6.1.2",
     "babel-loader": "6.2.5",
