@@ -1,0 +1,5 @@
+/**!
+© 2016 Convergence Labs, Inc.
+@version <%= package.version %>
+@license MIT
+*/

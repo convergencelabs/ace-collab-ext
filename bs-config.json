@@ -1,0 +1,8 @@
+{
+  "ghostMode": false,
+  "server": {
+    "baseDir": ".",
+    "directory": true
+  },
+  "open": false
+}

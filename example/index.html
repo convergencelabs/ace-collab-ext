@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ACE Collaborative Demo</title>
+
+  <link rel="stylesheet" href="example.css"/>
+  <link rel="stylesheet" href="../build/ace-collab-ext.css"/>
+
+  <script src="../node_modules/ace-builds/src/ace.js"></script>
+  <script src="../build/umd/ace-collab-ext.js" type="text/javascript" charset="utf-8"></script>
+  <script src="editor_contents.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body>
+<div class="main-container">
+  <div class="title">Ace Collaborative Example</div>
+  <div class="editors">
+    <div class="editor-column">
+      <div class="editor-label">Source Editor</div>
+      <div class="editor" id="source-editor"></div>
+    </div>
+    <div class="editor-column">
+      <div class="editor-label">Target Editor</div>
+      <div class="wrapped-editor">
+        <div class="editor" id="target-editor" style="height: 100%; width: 400px;"></div>
+        <div class="radar-view" id="target-radar-view"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="example.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

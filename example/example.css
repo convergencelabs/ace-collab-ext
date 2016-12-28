@@ -1,0 +1,59 @@
+.body {
+  margin: 0;
+}
+
+.main-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.title {
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.editors {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.editor-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.editor-label {
+  text-align: center;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.editor {
+  display: inline-block;
+  margin-left: 10px;
+  flex: 1;
+}
+
+.wrapped-editor {
+  flex: 1;
+  display: flex;
+}
+
+#target-radar-view {
+  display: inline-block;
+  min-width: 20px;
+  background: #2F3129;
+}
+
