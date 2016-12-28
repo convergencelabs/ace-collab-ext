@@ -8,7 +8,7 @@ what remote users are doing in the system.
 
 Install package with NPM and add it to your development dependencies:
 
-```npm install --save-dev ace-collab-ext```
+```npm install --save-dev @convergence/ace-collab-ext```
 
 ## Usage
 
