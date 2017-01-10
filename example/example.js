@@ -10,10 +10,10 @@ const sourceSession = sourceEditor.getSession();
 const targetEditor = initEditor("target-editor");
 targetEditor.setReadOnly(true);
 
-const targetCursorManager = new AceCollabExt.AceMultiCursorManager(targetEditor);
+const targetCursorManager = new AceCollabExt.AceMultiCursorManager(targetEditor.getSession());
 targetCursorManager.addCursor(sourceUser.id, sourceUser.label, sourceUser.color, 0);
 
-const targetSelectionManager = new AceCollabExt.AceMultiSelectionManager(targetEditor);
+const targetSelectionManager = new AceCollabExt.AceMultiSelectionManager(targetEditor.getSession());
 targetSelectionManager.addSelection(sourceUser.id, sourceUser.label, sourceUser.color, []);
 
 const radarView = new AceCollabExt.AceRadarView("target-radar-view", targetEditor);

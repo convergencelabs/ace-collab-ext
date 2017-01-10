@@ -1,8 +1,7 @@
 ## Ace Collaborative Extensions
 [![Build Status](https://travis-ci.org/convergencelabs/ace-collab-ext.svg?branch=master)](https://travis-ci.org/convergencelabs/ace-collab-ext)
 
-Enhances the [Ace Editor](https://github.com/ajaxorg/ace) by adding the ability to render cues about
-what remote users are doing in the system.
+Enhances the [Ace Editor](https://github.com/ajaxorg/ace) by adding the ability to render cues about what remote users are doing in the system.
 
 ## Installation
 
@@ -19,8 +18,8 @@ a single linear index or as a 2-dimensional position in the form of
 ```{row: 0, column: 10}```.
 
 ```javascript
-var editor = ace.edit("editor");
-var curMgr = new AceCollabExt.AceMultiSelectionManager(editor);
+const editor = ace.edit("editor");
+const curMgr = new AceCollabExt.AceMultiCursorManager(editor.getSession());
 
 // Add a new remote cursor with an id of "uid1", and a color of orange.
 curMgr.addCursor("uid1", "User 1", "orange", {row: 0, column: 10});
@@ -42,13 +41,13 @@ AceRanges.  A single range is common for normal selection, but multiple ranges
 are needed to support block selection.
 
 ```javascript
-var AceRange = ace.require("ace/range");
+const AceRange = ace.require("ace/range");
 
-var editor = ace.edit("editor");
-var selMgr = new AceCollabExt.AceMultiSelectionManager(editor);
+const editor = ace.edit("editor");
+const selMgr = new AceCollabExt.AceMultiSelectionManager(editor.getSession());
 
 // A two-line block selection
-var initialRanges = [
+const initialRanges = [
   new AceRange(0, 0, 0, 10),
   new AceRange(1, 0, 1, 10),
 ];
@@ -71,8 +70,8 @@ A radar view indicates where in a document another user is looking and allows
 you to easily go to the location in the document.
 
 ```javascript
-var editor = ace.edit("editor");
-var radarView = new AceCollabExt.RadarView("radarView", editor);
+const editor = ace.edit("editor");
+const radarView = new AceCollabExt.RadarView("radarView", editor);
 
 // Add a new remote view indicator with an id of "uid1", and a color of orange.
 radarView.addView("uid1", "user1", "orange", 0, 20, 0);
