@@ -9,6 +9,9 @@ Install package with NPM and add it to your development dependencies:
 
 ```npm install --save-dev @convergence/ace-collab-ext```
 
+## Demo
+Go [here](https://examples.convergence.io/ace/index.html) to see a live demo of multiple cursors, multiple selections, and remote scrollabars.  This uses [Convergence](https://convergence.io) to handle the synchronization of data and user actions. 
+
 ## Usage
 
 ### Multi Cursor Manager
