@@ -34,9 +34,9 @@ export class AceMultiCursorManager {
    * @param color
    *   A valid css color string.
    * @param position
-   *   A 2D-position indicating the location of the cusror in row column format e.g. {row: 0, column: 10}
+   *   A 2-d position or linear index indicating the location of the cursor.
    */
-  public addCursor(id: string, label: string, color: string, position: ace.Position): void {
+  public addCursor(id: string, label: string, color: string, position: number | ace.Position): void {
     if (this._cursors[id] !== undefined) {
       throw new Error(`Cursor with id already defined: ${id}`);
     }
@@ -53,9 +53,9 @@ export class AceMultiCursorManager {
    * @param id
    *   The unique identifier for the user.
    * @param position
-   *   A 2-d position indicating the location of the cusror in row column format e.g. {row: 0, column: 10}
+   *   A 2-d position or linear index indicating the location of the cursor.
    */
-  public setCursor(id: string, position: ace.Position): void {
+  public setCursor(id: string, position: number | ace.Position): void {
     const cursor: AceCursorMarker = this._getCursor(id);
 
     cursor.setPosition(position);

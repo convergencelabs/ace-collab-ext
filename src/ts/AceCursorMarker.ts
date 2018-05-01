@@ -20,7 +20,7 @@ export class AceCursorMarker {
    * @param color The css color of the cursor
    * @param position The row / column coordinate of the cursor marker.
    */
-  constructor(session: ace.IEditSession, cursorId: string, label: string, color: string, position: ace.Position) {
+  constructor(session: ace.IEditSession, cursorId: string, label: string, color: string, position: number | ace.Position) {
     this._session = session;
     this._label = label;
     this._color = color;
@@ -74,9 +74,9 @@ export class AceCursorMarker {
 
   /**
    * Sets the location of the cursor marker.
-   * @param position The row / column coordinate of the cursor marker.
+   * @param position The position of cursor marker.
    */
-  public setPosition(position: ace.Position): void {
+  public setPosition(position: number | ace.Position): void {
     this._position = this._convertPosition(position);
     this._forceSessionUpdate();
   }
@@ -132,12 +132,10 @@ export class AceCursorMarker {
     (this._session as any)._signal("changeFrontMarker");
   }
 
-  private _convertPosition(position: any): ace.Position {
-    const type = typeof position;
-
+  private _convertPosition(position: number | ace.Position): ace.Position {
     if (position === null) {
       return null;
-    } else if (type === "number") {
+    } else if (typeof position === "number") {
       return this._session.getDocument().indexToPosition(position, 0);
     } else if (typeof position.row === "number" && typeof position.column === "number") {
       return position;
