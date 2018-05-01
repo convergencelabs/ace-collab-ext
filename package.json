@@ -1,6 +1,6 @@
 {
   "name": "@convergence/ace-collab-ext",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "title": "Ace Editor Collaborative Extensions",
   "description": "Collaborative Extensions for the Ace Editor",
   "keywords": [
