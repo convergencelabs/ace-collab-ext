@@ -1,4 +1,4 @@
-export interface IndexRange {
+export interface IIndexRange {
   start: number;
   end: number;
 }

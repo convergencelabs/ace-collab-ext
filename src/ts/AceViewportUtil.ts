@@ -1,10 +1,10 @@
 import * as ace from "brace";
-import {IndexRange} from "./IndexRange";
-import {RowRange} from "./RowRange";
+import { IIndexRange } from "./IndexRange";
+import { IRowRange } from "./RowRange";
 
 export class AceViewportUtil {
 
-  public static getVisibleIndexRange(editor: ace.Editor): IndexRange {
+  public static getVisibleIndexRange(editor: ace.Editor): IIndexRange {
     let firstRow: number = editor.getFirstVisibleRow();
     let lastRow: number = editor.getLastVisibleRow();
 
@@ -16,10 +16,10 @@ export class AceViewportUtil {
       lastRow--;
     }
 
-    let startPos: number = editor.getSession().getDocument().positionToIndex({row: firstRow, column: 0}, 0);
+    const startPos: number = editor.getSession().getDocument().positionToIndex({row: firstRow, column: 0}, 0);
 
     // todo, this should probably be the end of the row
-    let endPos: number = editor.getSession().getDocument().positionToIndex({row: lastRow, column: 0}, 0);
+    const endPos: number = editor.getSession().getDocument().positionToIndex({row: lastRow, column: 0}, 0);
 
     return {
       start: startPos,
@@ -27,7 +27,7 @@ export class AceViewportUtil {
     };
   }
 
-  public static indicesToRows(editor: ace.Editor, startIndex: number, endIndex: number): RowRange {
+  public static indicesToRows(editor: ace.Editor, startIndex: number, endIndex: number): IRowRange {
     const startRow: number = editor.getSession().getDocument().indexToPosition(startIndex, 0).row;
     const endRow: number = editor.getSession().getDocument().indexToPosition(endIndex, 0).row;
 

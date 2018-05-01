@@ -1,11 +1,11 @@
 import * as ace from "brace";
-import {RowRange} from "./RowRange";
+import {IRowRange} from "./RowRange";
 
 export class AceRadarViewIndicator {
 
   private _label: string;
   private _color: string;
-  private _viewRows: RowRange;
+  private _viewRows: IRowRange;
   private _cursorRow: number;
   private _editor: ace.Editor;
   private _docLineCount: number;
@@ -14,7 +14,7 @@ export class AceRadarViewIndicator {
   private _cursorElement: HTMLDivElement;
   private _wrapper: HTMLDivElement;
 
-  constructor(label: string, color: string, viewRows: RowRange, cursorRow: number, editor: ace.Editor) {
+  constructor(label: string, color: string, viewRows: IRowRange, cursorRow: number, editor: ace.Editor) {
     this._label = label;
     this._color = color;
     this._viewRows = viewRows;
@@ -30,10 +30,10 @@ export class AceRadarViewIndicator {
         this.update();
       }
     };
-    this._editor.on('change', this._editorListener);
+    this._editor.on("change", this._editorListener);
 
-    this._scrollElement = document.createElement('div');
-    this._scrollElement.className = 'ace-radar-view-scroll-indicator';
+    this._scrollElement = document.createElement("div");
+    this._scrollElement.className = "ace-radar-view-scroll-indicator";
 
     this._scrollElement.style.borderColor = this._color;
     this._scrollElement.style.background = this._color;
@@ -41,24 +41,24 @@ export class AceRadarViewIndicator {
     // todo implement a custom tooltip for consistent presentation.
     this._scrollElement.title = this._label;
 
-    this._scrollElement.addEventListener('click', () => {
+    this._scrollElement.addEventListener("click", () => {
       const middle = ((this._viewRows.end - this._viewRows.start) / 2) + this._viewRows.start;
 
-      this._editor.scrollToLine(middle, true, false, () => {});
+      this._editor.scrollToLine(middle, true, false, () => { /* no-op */ });
     }, false);
 
-    this._cursorElement = document.createElement('div');
-    this._cursorElement.className = 'ace-radar-view-cursor-indicator';
+    this._cursorElement = document.createElement("div");
+    this._cursorElement.className = "ace-radar-view-cursor-indicator";
     this._cursorElement.style.background = this._color;
     this._cursorElement.title = this._label;
 
-    this._cursorElement.addEventListener('click', () => {
-      this._editor.scrollToLine(this._cursorRow, true, false, () => {});
+    this._cursorElement.addEventListener("click", () => {
+      this._editor.scrollToLine(this._cursorRow, true, false, () => { /* no-op */ });
     }, false);
 
-    this._wrapper = document.createElement('div');
-    this._wrapper.className = 'ace-radar-view-wrapper';
-    this._wrapper.style.display = 'none';
+    this._wrapper = document.createElement("div");
+    this._wrapper.className = "ace-radar-view-wrapper";
+    this._wrapper.style.display = "none";
 
     this._wrapper.appendChild(this._scrollElement);
     this._wrapper.appendChild(this._cursorElement);
@@ -73,37 +73,37 @@ export class AceRadarViewIndicator {
     this.update();
   }
 
-  public setViewRows(viewRows: RowRange): void {
+  public setViewRows(viewRows: IRowRange): void {
     this._viewRows = viewRows;
     this.update();
   }
 
   public update(): void {
     if (!_isSet(this._viewRows) && !_isSet(this._cursorRow)) {
-      this._wrapper.style.display = 'none';
+      this._wrapper.style.display = "none";
     } else {
       this._wrapper.style.display = null;
       const maxLine = this._docLineCount - 1;
 
       if (!_isSet(this._viewRows)) {
-        this._scrollElement.style.display = 'none';
+        this._scrollElement.style.display = "none";
       } else {
         const topPercent = Math.min(maxLine, this._viewRows.start) / maxLine * 100;
         const bottomPercent = 100 - (Math.min(maxLine, this._viewRows.end) / maxLine * 100);
 
-        this._scrollElement.style.top = topPercent + '%';
-        this._scrollElement.style.bottom = bottomPercent + '%';
+        this._scrollElement.style.top = topPercent + "%";
+        this._scrollElement.style.bottom = bottomPercent + "%";
         this._scrollElement.style.display = null;
       }
 
       if (!_isSet(this._cursorRow)) {
-        this._cursorElement.style.display = 'none';
+        this._cursorElement.style.display = "none";
       } else {
         const cursorPercent = Math.min(this._cursorRow, maxLine) / maxLine;
         const ratio = (this._wrapper.offsetHeight - this._cursorElement.offsetHeight) / this._wrapper.offsetHeight;
         const cursorTop = cursorPercent * ratio * 100;
 
-        this._cursorElement.style.top = cursorTop + '%';
+        this._cursorElement.style.top = cursorTop + "%";
         this._cursorElement.style.display = null;
       }
     }
@@ -111,7 +111,7 @@ export class AceRadarViewIndicator {
 
   public dispose(): void {
     this._wrapper.parentNode.removeChild(this._wrapper);
-    this._editor.off('change', this._editorListener);
+    this._editor.off("change", this._editorListener);
   }
 }
 

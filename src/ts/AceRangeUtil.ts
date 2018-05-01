@@ -1,4 +1,4 @@
-import * as ace from 'brace';
+import * as ace from "brace";
 import {Range} from "brace";
 
 let AceRange: {
@@ -6,19 +6,19 @@ let AceRange: {
 };
 
 if (ace.acequire !== undefined) {
-  AceRange = ace.acequire('ace/range').Range;
+  AceRange = ace.acequire("ace/range").Range;
 } else {
-  AceRange = (ace as any).require('ace/range').Range;
+  AceRange = (ace as any).require("ace/range").Range;
 }
 
-export interface RangeData {
-  start: {row: number, column: number},
-  end: {row: number, column: number}
+export interface IRangeData {
+  start: {row: number, column: number};
+  end: {row: number, column: number};
 }
 
 export class AceRangeUtil {
 
-  public static rangeToJson(range: ace.Range): RangeData {
+  public static rangeToJson(range: ace.Range): IRangeData {
     return {
       start: {
         row: range.start.row,
@@ -31,7 +31,7 @@ export class AceRangeUtil {
     };
   }
 
-  public static jsonToRange(range: RangeData): ace.Range {
+  public static jsonToRange(range: IRangeData): ace.Range {
     return new AceRange(
       range.start.row,
       range.start.column,
@@ -39,20 +39,20 @@ export class AceRangeUtil {
       range.end.column);
   }
 
-  public static rangesToJson(ranges: ace.Range[]): RangeData[] {
+  public static rangesToJson(ranges: ace.Range[]): IRangeData[] {
     return ranges.map((range) => {
       return AceRangeUtil.rangeToJson(range);
     });
   }
 
-  public static jsonToRanges(ranges: RangeData[]): ace.Range[] {
+  public static jsonToRanges(ranges: IRangeData[]): ace.Range[] {
     return ranges.map((range) => {
       return AceRangeUtil.jsonToRange(range);
     });
   }
 
-  public static toJson(value: ace.Range): RangeData;
-  public static toJson(value: ace.Range[]): RangeData[];
+  public static toJson(value: ace.Range): IRangeData;
+  public static toJson(value: ace.Range[]): IRangeData[];
   public static toJson(value: ace.Range | ace.Range[]) {
     if (Array.isArray(value)) {
       return AceRangeUtil.rangesToJson(value);
@@ -61,9 +61,9 @@ export class AceRangeUtil {
     return AceRangeUtil.rangeToJson(value);
   }
 
-  public static fromJson(value: RangeData): ace.Range;
-  public static fromJson(value: RangeData[]): ace.Range[];
-  public static fromJson(value: RangeData | RangeData[]): ace.Range | ace.Range[] {
+  public static fromJson(value: IRangeData): ace.Range;
+  public static fromJson(value: IRangeData[]): ace.Range[];
+  public static fromJson(value: IRangeData | IRangeData[]): ace.Range | ace.Range[] {
     if (Array.isArray(value)) {
       return AceRangeUtil.jsonToRanges(value);
     }

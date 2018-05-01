@@ -1,4 +1,4 @@
-export interface RowRange {
+export interface IRowRange {
   start: number;
   end: number;
 }

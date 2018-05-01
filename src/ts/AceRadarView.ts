@@ -1,25 +1,26 @@
 import * as ace from "brace";
-import { AceRadarViewIndicator } from './AceRadarViewIndicator';
-import {RowRange} from "./RowRange";
+import { AceRadarViewIndicator } from "./AceRadarViewIndicator";
+import {IRowRange} from "./RowRange";
 
 export class AceRadarView {
   private _container: HTMLElement;
   private _views: {[key: string]: AceRadarViewIndicator};
   private _editor: ace.Editor;
+
   constructor(element: HTMLElement | string, editor: ace.Editor) {
     this._container = null;
-    if (typeof element === 'string') {
+    if (typeof element === "string") {
       this._container = document.getElementById(element);
     } else {
       this._container = element;
     }
 
-    this._container.style.position = 'relative';
+    this._container.style.position = "relative";
     this._views = {};
     this._editor = editor;
-  };
+  }
 
-  public addView(id: string, label: string, color: string, viewRows: RowRange, cursorRow: number) {
+  public addView(id: string, label: string, color: string, viewRows: IRowRange, cursorRow: number) {
     const indicator = new AceRadarViewIndicator(
       label,
       color,
@@ -38,7 +39,7 @@ export class AceRadarView {
     return this._views[id] !== undefined;
   }
 
-  public setViewRows(id: string, rows: RowRange) {
+  public setViewRows(id: string, rows: IRowRange) {
     const indicator = this._views[id];
     indicator.setViewRows(rows);
   }

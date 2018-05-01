@@ -51,24 +51,24 @@ export class AceCursorMarker {
     const height: number = layerConfig.lineHeight;
 
     html.push(
-      '<div class="ace-multi-cursor ace_start" style="',
+      `<div class="ace-multi-cursor ace_start" style="`,
       `height: ${height - 3}px;`,
       `width: ${2}px;`,
       `top: ${top + 2}px;`,
       `left: ${left}px;`,
       `background-color: ${this._color};`,
-      '"></div>'
+      `"></div>`
     );
 
     // Caret Top
     html.push(
-      '<div class="ace-multi-cursor ace_start" style="',
+      `<div class="ace-multi-cursor ace_start" style="`,
       `height: ${5}px;`,
       `width: ${6}px;`,
       `top: ${top - 2}px;`,
       `left: ${left - 2}px;`,
       `background-color: ${this._color};`,
-      '"></div>'
+      `"></div>`
     );
   }
 
@@ -122,14 +122,14 @@ export class AceCursorMarker {
 
   /**
    * Gets the label of the marker.
-   * @returns The marker's label.
+   * @returns The marker"s label.
    */
   public getLabel(): string {
     return this._label;
   }
 
   private _forceSessionUpdate(): void {
-    (this._session as any)._signal('changeFrontMarker');
+    (this._session as any)._signal("changeFrontMarker");
   }
 
   private _convertPosition(position: any): ace.Position {
@@ -137,9 +137,9 @@ export class AceCursorMarker {
 
     if (position === null) {
       return null;
-    } else if (type === 'number') {
+    } else if (type === "number") {
       return this._session.getDocument().indexToPosition(position, 0);
-    } else if (typeof position.row === 'number' && typeof position.column === 'number') {
+    } else if (typeof position.row === "number" && typeof position.column === "number") {
       return position;
     }
 

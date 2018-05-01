@@ -1,5 +1,5 @@
 import * as ace from "brace";
-import { AceCursorMarker } from './AceCursorMarker';
+import { AceCursorMarker } from "./AceCursorMarker";
 
 /**
  * Implements multiple colored cursors in the ace editor.  Each cursor is

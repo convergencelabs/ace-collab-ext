@@ -1,5 +1,5 @@
 import * as ace from "brace";
-import { AceSelectionMarker } from './AceSelectionMarker';
+import { AceSelectionMarker } from "./AceSelectionMarker";
 
 /**
  * Implements multiple colored selections in the ace editor.  Each selection is
@@ -38,7 +38,7 @@ export class AceMultiSelectionManager {
    */
   public addSelection(id: string, label: string, color: string, ranges: ace.Range[]): void {
     if (this._selections[id] !== undefined) {
-      throw new Error('Selection with id already defined: ' + id);
+      throw new Error("Selection with id already defined: " + id);
     }
 
     const marker = new AceSelectionMarker(this._session, id, label, color, ranges);
@@ -81,7 +81,7 @@ export class AceMultiSelectionManager {
     const selection = this._selections[id];
 
     if (selection === undefined) {
-      throw new Error('Selection not found: ' + id);
+      throw new Error("Selection not found: " + id);
     }
 
     // note: ace adds the id property to whatever marker you pass in.
@@ -102,7 +102,7 @@ export class AceMultiSelectionManager {
     const selection: AceSelectionMarker = this._selections[id];
 
     if (selection === undefined) {
-      throw new Error('Selection not found: ' + id);
+      throw new Error("Selection not found: " + id);
     }
     return selection;
   }
