@@ -1,4 +1,5 @@
-import AceSelectionMarker from './AceSelectionMarker';
+import * as ace from "brace";
+import { AceSelectionMarker } from './AceSelectionMarker';
 
 /**
  * Implements multiple colored selections in the ace editor.  Each selection is
@@ -6,16 +7,19 @@ import AceSelectionMarker from './AceSelectionMarker';
  * and has a color associated with them.  The selection manager supports block
  * selection through multiple AceRanges.
  */
-export default class AceMultiSelectionManager {
+export class AceMultiSelectionManager {
+
+  private _selections: {[key: string]: AceSelectionMarker};
+  private _session: ace.IEditSession;
 
   /**
    * Constructs a new AceMultiSelectionManager that is bound to a particular
    * Ace EditSession instance.
    *
-   * @param session {EditSession}
+   * @param session
    *   The Ace EditSession to bind to.
    */
-  constructor(session) {
+  constructor(session: ace.IEditSession) {
     this._selections = {};
     this._session = session;
   }
@@ -23,16 +27,16 @@ export default class AceMultiSelectionManager {
   /**
    * Adds a new collaborative selection.
    *
-   * @param id {string}
+   * @param id
    *   The unique system identifier for the user associated with this selection.
-   * @param label {string}
+   * @param label
    *   A human readable / meaningful label / title that identifies the user.
-   * @param color {string}
+   * @param color
    *   A valid css color string.
-   * @param ranges {Array<AceRange>}
+   * @param ranges
    *   An array of ace ranges that specify the initial selection.
    */
-  addSelection(id, label, color, ranges) {
+  public addSelection(id: string, label: string, color: string, ranges: ace.Range[]): void {
     if (this._selections[id] !== undefined) {
       throw new Error('Selection with id already defined: ' + id);
     }
@@ -46,12 +50,12 @@ export default class AceMultiSelectionManager {
   /**
    * Updates the selection for a particular user.
    *
-   * @param id {string}
+   * @param id
    *   The unique identifier for the user.
-   * @param ranges {Array<AceRange>}
+   * @param ranges
    *   The array of ranges that specify the selection.
    */
-  setSelection(id, ranges) {
+  public setSelection(id: string, ranges: ace.Range[]) {
     const selection = this._getSelection(id);
 
     selection.setSelection(ranges);
@@ -59,10 +63,10 @@ export default class AceMultiSelectionManager {
 
   /**
    * Clears the selection (but does not remove it) for the specified user.
-   * @param id {string}
+   * @param id
    *   The unique identifier for the user.
    */
-  clearSelection(id) {
+  public clearSelection(id: string): void {
     const selection = this._getSelection(id);
 
     selection.setSelection(null);
@@ -70,30 +74,32 @@ export default class AceMultiSelectionManager {
 
   /**
    * Removes the selection for the specified user.
-   * @param id {string}
+   * @param id
    *   The unique identifier for the user.
    */
-  removeSelection(id) {
+  public removeSelection(id: string) {
     const selection = this._selections[id];
 
     if (selection === undefined) {
       throw new Error('Selection not found: ' + id);
     }
-    this._session.removeMarker(selection.id);
+
+    // note: ace adds the id property to whatever marker you pass in.
+    this._session.removeMarker((selection as any).id);
     delete this._selections[id];
   }
 
   /**
    * Removes all selections.
    */
-  removeAll() {
+  public removeAll(): void {
     Object.getOwnPropertyNames(this._selections).forEach((key) => {
       this.removeSelection(this._selections[key].selectionId());
     });
   }
 
-  _getSelection(id) {
-    const selection = this._selections[id];
+  private _getSelection(id: string): AceSelectionMarker {
+    const selection: AceSelectionMarker = this._selections[id];
 
     if (selection === undefined) {
       throw new Error('Selection not found: ' + id);

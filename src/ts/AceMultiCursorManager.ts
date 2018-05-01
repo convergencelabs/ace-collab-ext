@@ -1,4 +1,5 @@
-import AceCursorMarker from './AceCursorMarker';
+import * as ace from "brace";
+import { AceCursorMarker } from './AceCursorMarker';
 
 /**
  * Implements multiple colored cursors in the ace editor.  Each cursor is
@@ -6,16 +7,19 @@ import AceCursorMarker from './AceCursorMarker';
  * and has a color associated with them.  Each cursor has a position in the
  * editor which is specified by a 2-d row and column ({row: 0, column: 10}).
  */
-export default class AceMultiCursorManager {
+export class AceMultiCursorManager {
+
+  private _cursors: {[key: string]: AceCursorMarker};
+  private _session: ace.IEditSession;
 
   /**
    * Constructs a new AceMultiCursorManager that is bound to a particular
    * Ace EditSession instance.
    *
-   * @param session {EditSession}
+   * @param session
    *   The Ace EditSession to bind to.
    */
-  constructor(session) {
+  constructor(session: ace.IEditSession) {
     this._cursors = {};
     this._session = session;
   }
@@ -23,21 +27,21 @@ export default class AceMultiCursorManager {
   /**
    * Adds a new collaborative selection.
    *
-   * @param id {string}
+   * @param id
    *   The unique system identifier for the user associated with this selection.
-   * @param label {string}
+   * @param label
    *   A human readable / meaningful label / title that identifies the user.
-   * @param color {string}
+   * @param color
    *   A valid css color string.
-   * @param position {*}
+   * @param position
    *   A 2D-position indicating the location of the cusror in row column format e.g. {row: 0, column: 10}
    */
-  addCursor(id, label, color, position) {
+  public addCursor(id: string, label: string, color: string, position: ace.Position): void {
     if (this._cursors[id] !== undefined) {
       throw new Error(`Cursor with id already defined: ${id}`);
     }
 
-    const marker = new AceCursorMarker(this._session, id, label, color, position);
+    const marker: AceCursorMarker = new AceCursorMarker(this._session, id, label, color, position);
 
     this._cursors[id] = marker;
     this._session.addDynamicMarker(marker, true);
@@ -46,13 +50,13 @@ export default class AceMultiCursorManager {
   /**
    * Updates the selection for a particular user.
    *
-   * @param id {string}
+   * @param id
    *   The unique identifier for the user.
-   * @param position {*}
+   * @param position
    *   A 2-d position indicating the location of the cusror in row column format e.g. {row: 0, column: 10}
    */
-  setCursor(id, position) {
-    const cursor = this._getCursor(id);
+  public setCursor(id: string, position: ace.Position): void {
+    const cursor: AceCursorMarker = this._getCursor(id);
 
     cursor.setPosition(position);
   }
@@ -60,10 +64,10 @@ export default class AceMultiCursorManager {
   /**
    * Clears the cursor (but does not remove it) for the specified user.
    *
-   * @param id {string}
+   * @param id
    *   The unique identifier for the user.
    */
-  clearCursor(id) {
+  public clearCursor(id: string): void {
     const cursor = this._getCursor(id);
 
     cursor.setPosition(null);
@@ -72,30 +76,31 @@ export default class AceMultiCursorManager {
   /**
    * Removes the cursor for the specified user.
    *
-   * @param id {string}
+   * @param id
    *   The unique identifier for the user.
    */
-  removeCursor(id) {
+  public removeCursor(id: string): void {
     const cursor = this._cursors[id];
 
     if (cursor === undefined) {
       throw new Error(`Cursor not found: ${id}`);
     }
-    this._session.removeMarker(cursor.id);
+    // Note: ace adds an id field to all added markers.
+    this._session.removeMarker((cursor as any).id);
     delete this._cursors[id];
   }
 
   /**
    * Removes all cursors.
    */
-  removeAll() {
+  public removeAll(): void {
     Object.getOwnPropertyNames(this._cursors).forEach((key) => {
       this.removeCursor(this._cursors[key].cursorId());
     });
   }
 
-  _getCursor(id) {
-    const cursor = this._cursors[id];
+  private _getCursor(id: string): AceCursorMarker {
+    const cursor: AceCursorMarker = this._cursors[id];
 
     if (cursor === undefined) {
       throw new Error(`Cursor not found: ${id}`);

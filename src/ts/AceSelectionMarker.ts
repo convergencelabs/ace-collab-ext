@@ -1,26 +1,46 @@
-export default class AceSelectionMarker {
-  constructor(session, selectionId, title, color, range) {
+import * as ace from "brace";
+
+export interface SelectionBounds {
+  height?: number;
+  width?: number;
+  top?: number;
+  left?: number;
+  bottom?: number;
+  right?: number;
+}
+
+export class AceSelectionMarker {
+
+  private _session: ace.IEditSession;
+  private _label: string;
+  private _color: string;
+  private _ranges: ace.Range[];
+  private _selectionId: string;
+  private _id: string;
+
+
+  constructor(session: ace.IEditSession, selectionId: string, label: string, color: string, ranges: ace.Range[]) {
     this._session = session;
-    this._title = title;
+    this._label = label;
     this._color = color;
-    this._ranges = range || [];
+    this._ranges = ranges || [];
     this._selectionId = selectionId;
     this._id = null;
   }
 
-  update(html, markerLayer, session, layerConfig) {
+  public update(html: string[], markerLayer: any, session: ace.IEditSession, layerConfig: any): void {
     this._ranges.forEach((range) => {
       this._renderRange(html, markerLayer, session, layerConfig, range);
     });
   }
 
-  _renderRange(html, markerLayer, session, layerConfig, range) {
-    const screenRange = range.toScreenRange(session);
+  private _renderRange(html: string[], markerLayer: any, session: ace.IEditSession, layerConfig: any, range: ace.Range): void {
+    const screenRange: ace.Range = range.toScreenRange(session);
 
-    let height = layerConfig.lineHeight;
-    let top = markerLayer.$getTop(screenRange.start.row, layerConfig);
-    let left = markerLayer.$padding + screenRange.start.column * layerConfig.characterWidth;
-    let width = 0;
+    let height: number = layerConfig.lineHeight;
+    let top: number = markerLayer.$getTop(screenRange.start.row, layerConfig);
+    let left: number = markerLayer.$padding + screenRange.start.column * layerConfig.characterWidth;
+    let width: number = 0;
 
     if (screenRange.isMultiLine()) {
       // Render the start line
@@ -44,8 +64,8 @@ export default class AceSelectionMarker {
     }
   }
 
-  _renderLine(html, bounds) {
-    html.push('<div class="ace-multi-selection" style="');
+  private _renderLine(html: string[], bounds: SelectionBounds): void {
+    html.push(`<div title="${this._label}" class="ace-multi-selection" style="`);
 
     if (typeof bounds.height === 'number') {
       html.push(` height: ${bounds.height}px;`);
@@ -75,7 +95,7 @@ export default class AceSelectionMarker {
     html.push('</div>');
   }
 
-  setSelection(ranges) {
+  setSelection(ranges: ace.Range[]) {
     if (ranges === undefined || ranges === null) {
       this._ranges = [];
     } else if (ranges instanceof Array) {
@@ -87,15 +107,15 @@ export default class AceSelectionMarker {
     this._forceSessionUpdate();
   }
 
-  selectionId() {
+  public selectionId(): string {
     return this._selectionId;
   }
 
-  markerId() {
+  public markerId(): string {
     return this._id;
   }
 
-  _forceSessionUpdate() {
-    this._session._signal('changeBackMarker');
+  private _forceSessionUpdate(): void {
+    (this._session as any)._signal('changeBackMarker');
   }
 }

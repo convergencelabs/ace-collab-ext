@@ -1,7 +1,12 @@
-import AceRadarViewIndicator from './AceRadarViewIndicator';
+import * as ace from "brace";
+import { AceRadarViewIndicator } from './AceRadarViewIndicator';
+import {RowRange} from "./RowRange";
 
-export default class AceRadarView {
-  constructor(element, editor) {
+export class AceRadarView {
+  private _container: HTMLElement;
+  private _views: {[key: string]: AceRadarViewIndicator};
+  private _editor: ace.Editor;
+  constructor(element: HTMLElement | string, editor: ace.Editor) {
     this._container = null;
     if (typeof element === 'string') {
       this._container = document.getElementById(element);
@@ -10,13 +15,12 @@ export default class AceRadarView {
     }
 
     this._container.style.position = 'relative';
-    this._views = [];
+    this._views = {};
     this._editor = editor;
   };
 
-  addView(id, label, color, viewRows, cursorRow) {
+  public addView(id: string, label: string, color: string, viewRows: RowRange, cursorRow: number) {
     const indicator = new AceRadarViewIndicator(
-      id,
       label,
       color,
       viewRows,
@@ -30,34 +34,22 @@ export default class AceRadarView {
     this._views[id] = indicator;
   }
 
-  hasView(id) {
+  public hasView(id: string): boolean {
     return this._views[id] !== undefined;
   }
 
-  /**
-   *
-   * @param id
-   * @param rows {start: 0, end: 34}
-   */
-  setViewRows(id, rows) {
+  public setViewRows(id: string, rows: RowRange) {
     const indicator = this._views[id];
-
     indicator.setViewRows(rows);
   }
 
-  setCursorRow(id, row) {
+  public setCursorRow(id: string, row: number) {
     const indicator = this._views[id];
-
     indicator.setCursorRow(row);
   }
 
-  clearView(id) {
-    // fixme implement
-  }
-
-  removeView(id) {
+  public removeView(id: string): void {
     const indicator = this._views[id];
-
     indicator.dispose();
     delete this._views[id];
   }

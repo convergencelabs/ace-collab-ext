@@ -1,5 +1,13 @@
 # Change Log
 
+## [v0.2.0](https://github.com/convergencelabs/ace-collab-ext/tree/0.2.0) (2018-05-01)
+
+**Enhancements:**
+
+- [\#2](https://github.com/convergencelabs/ace-collab-ext/issues/2) The library now contains typescript definitions.
+- [\#3](https://github.com/convergencelabs/ace-collab-ext/issues/3) The library now contains typescript definitions.
+
+
 ## [v0.1.1](https://github.com/convergencelabs/ace-collab-ext/tree/0.1.1) (2017-01-10)
 
 **Enhancements:**
