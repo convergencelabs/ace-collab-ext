@@ -5,7 +5,7 @@
 **Enhancements:**
 
 - [\#2](https://github.com/convergencelabs/ace-collab-ext/issues/2) The library now contains typescript definitions.
-- [\#3](https://github.com/convergencelabs/ace-collab-ext/issues/3) The library now contains typescript definitions.
+- [\#3](https://github.com/convergencelabs/ace-collab-ext/issues/3) The common js build is no longer webpacked.
 
 
 ## [v0.1.1](https://github.com/convergencelabs/ace-collab-ext/tree/0.1.1) (2017-01-10)
