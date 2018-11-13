@@ -1,5 +1,26 @@
 # Change Log
 
+## [v0.2.3](https://github.com/convergencelabs/ace-collab-ext/tree/0.2.3) (2018-11-13)
+
+**Fixes:**
+
+- [\#4](https://github.com/convergencelabs/ace-collab-ext/pull/4) Improved selection when line wrapping is enabled.
+
+## [v0.2.2](https://github.com/convergencelabs/ace-collab-ext/tree/0.2.2) (2018-05-01)
+
+**Enhancements:**
+
+- Added the RadarView.clearView method.
+
+
+## [v0.2.1](https://github.com/convergencelabs/ace-collab-ext/tree/0.2.1) (2018-05-01)
+
+**Enhancements:**
+
+- Improved typings to better support UMD imports.
+- Updated the Multi Cursor Manager to accept Positions in addition to Indices
+
+
 ## [v0.2.0](https://github.com/convergencelabs/ace-collab-ext/tree/0.2.0) (2018-05-01)
 
 **Enhancements:**
