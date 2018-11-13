@@ -67,16 +67,16 @@ export class AceSelectionMarker {
       this._renderLine(html, {height, right, top, left});
 
       // from start of the last line to the selection end
-      top = markerLayer.$getTop(range.end.row, layerConfig);
+      top = markerLayer.$getTop(screenRange.end.row, layerConfig);
       width = screenRange.end.column * layerConfig.characterWidth;
       this._renderLine(html, {height, width, top, left: markerLayer.$padding});
 
       // all the complete lines
-      height = (range.end.row - range.start.row - 1) * layerConfig.lineHeight;
+      height = (screenRange.end.row - screenRange.start.row - 1) * layerConfig.lineHeight;
       if (height < 0) {
         return;
       }
-      top = markerLayer.$getTop(range.start.row + 1, layerConfig);
+      top = markerLayer.$getTop(screenRange.start.row + 1, layerConfig);
       this._renderLine(html, {height, right, top, left: markerLayer.$padding});
     } else {
       width = (range.end.column - range.start.column) * layerConfig.characterWidth;
