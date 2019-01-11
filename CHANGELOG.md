@@ -1,5 +1,12 @@
 # Change Log
 
+## [v0.3.0](https://github.com/convergencelabs/ace-collab-ext/tree/0.3.0) (2019-01-12)
+
+**Enhancements:**
+- [\#5](https://github.com/convergencelabs/ace-collab-ext/issues/5) Add cursor user tooltips.
+- [\#6](https://github.com/convergencelabs/ace-collab-ext/issues/6) Update to work with Ace > 1.4.0.
+
+
 ## [v0.2.3](https://github.com/convergencelabs/ace-collab-ext/tree/0.2.3) (2018-11-13)
 
 **Fixes:**

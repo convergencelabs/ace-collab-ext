@@ -4,13 +4,17 @@ import * as ace from "brace";
  * Represents a marker of a remote users cursor.
  */
 export class AceCursorMarker {
-  private _session: ace.IEditSession;
-  private _label: string;
-  private _color: string;
-  private _position: ace.Position;
-  private _cursorId: string;
-  private _id: string;
+  private readonly _session: ace.IEditSession;
+  private readonly _label: string;
+  private readonly _color: string;
+  private readonly _cursorId: string;
+  private readonly _id: string;
+  private readonly _markerElement: HTMLDivElement;
+  private readonly _cursorElement: HTMLDivElement;
+  private readonly _tooltipElement: HTMLDivElement;
   private _visible: boolean;
+  private _position: ace.Position;
+  private _tooltipTimeout: any;
 
   /**
    * Constructs a new AceCursorMarker
@@ -20,7 +24,11 @@ export class AceCursorMarker {
    * @param color The css color of the cursor
    * @param position The row / column coordinate of the cursor marker.
    */
-  constructor(session: ace.IEditSession, cursorId: string, label: string, color: string, position: number | ace.Position) {
+  constructor(session: ace.IEditSession,
+              cursorId: string,
+              label: string,
+              color: string,
+              position: number | ace.Position) {
     this._session = session;
     this._label = label;
     this._color = color;
@@ -28,17 +36,32 @@ export class AceCursorMarker {
     this._cursorId = cursorId;
     this._id = null;
     this._visible = false;
+    this._tooltipTimeout = null;
+
+    // Create the HTML elements
+    this._markerElement = document.createElement("div");
+    this._cursorElement = document.createElement("div");
+    this._cursorElement.className = "ace-multi-cursor";
+    this._cursorElement.style.background = this._color;
+    this._markerElement.append(this._cursorElement);
+
+    this._tooltipElement = document.createElement("div");
+    this._tooltipElement.className = "ace-multi-cursor-tooltip";
+    this._tooltipElement.style.background = this._color;
+    this._tooltipElement.style.opacity = "0";
+    this._tooltipElement.innerHTML = label;
+    this._markerElement.append(this._tooltipElement);
   }
 
   /**
    * Called by Ace to update the rendering of the marker.
    *
-   * @param html The html to render, represented by an array of strings.
+   * @param _ The html to render, represented by an array of strings.
    * @param markerLayer The marker layer containing the cursor marker.
-   * @param _ Not used.
+   * @param __ The ace edit session.
    * @param layerConfig
    */
-  public update(html: string[], markerLayer: any, _: ace.IEditSession, layerConfig: any): void {
+  public update(_: string[], markerLayer: any, __: ace.IEditSession, layerConfig: any): void {
     if (this._position === null) {
       return;
     }
@@ -50,26 +73,31 @@ export class AceCursorMarker {
     const left: number = markerLayer.$padding + screenPosition.column * layerConfig.characterWidth;
     const height: number = layerConfig.lineHeight;
 
-    html.push(
-      `<div class="ace-multi-cursor ace_start" style="`,
-      `height: ${height - 3}px;`,
-      `width: ${2}px;`,
-      `top: ${top + 2}px;`,
-      `left: ${left}px;`,
-      `background-color: ${this._color};`,
-      `"></div>`
-    );
+    const cursorTop = top + 2;
+    const cursorHeight = height - 3;
+    const cursorLeft = left;
+    const cursorWidth = 2;
 
-    // Caret Top
-    html.push(
-      `<div class="ace-multi-cursor ace_start" style="`,
-      `height: ${5}px;`,
-      `width: ${6}px;`,
-      `top: ${top - 2}px;`,
-      `left: ${left - 2}px;`,
-      `background-color: ${this._color};`,
-      `"></div>`
-    );
+    this._cursorElement.style.height = `${cursorHeight}px`;
+    this._cursorElement.style.width = `${cursorWidth}px`;
+    this._cursorElement.style.top = `${cursorTop}px`;
+    this._cursorElement.style.left = `${cursorLeft}px`;
+
+    let toolTipTop = cursorTop - height;
+    if (toolTipTop < 5) {
+      toolTipTop = cursorTop + height - 1;
+    }
+
+    const toolTipLeft = cursorLeft;
+    this._tooltipElement.style.top = `${toolTipTop - 2}px`;
+    this._tooltipElement.style.left = `${toolTipLeft - 2}px`;
+
+    // Remove the content node from whatever parent it might have now
+    // and add it to the new parent node.
+    this._markerElement.remove();
+    markerLayer.elt("remote-cursor", "");
+    const parentNode = markerLayer.element.childNodes[markerLayer.i - 1] || markerLayer.element.lastChild;
+    parentNode.appendChild(this._markerElement);
   }
 
   /**
@@ -79,6 +107,8 @@ export class AceCursorMarker {
   public setPosition(position: number | ace.Position): void {
     this._position = this._convertPosition(position);
     this._forceSessionUpdate();
+    this._tooltipElement.style.opacity = "1";
+    this._scheduleTooltipHide();
   }
 
   /**
@@ -91,6 +121,7 @@ export class AceCursorMarker {
 
     this._visible = visible;
     if (old !== this._visible) {
+      this._markerElement.style.visibility = visible ? "visible" : "hidden";
       this._forceSessionUpdate();
     }
   }
@@ -142,5 +173,16 @@ export class AceCursorMarker {
     }
 
     throw new Error(`Invalid position: ${position}`);
+  }
+
+  private _scheduleTooltipHide(): void {
+    if (this._tooltipTimeout !== null) {
+      clearTimeout(this._tooltipTimeout);
+    }
+
+    this._tooltipTimeout = setTimeout(() => {
+      this._tooltipElement.style.opacity = "0";
+      this._tooltipTimeout = null;
+    }, 2000);
   }
 }

@@ -12,11 +12,12 @@ export interface ISelectionBounds {
 export class AceSelectionMarker {
 
   private _session: ace.IEditSession;
-  private _label: string;
-  private _color: string;
+  private readonly _label: string;
+  private readonly _color: string;
   private _ranges: ace.Range[];
-  private _selectionId: string;
-  private _id: string;
+  private readonly _selectionId: string;
+  private readonly _id: string;
+  private readonly _markerElement: HTMLDivElement;
 
   constructor(session: ace.IEditSession, selectionId: string, label: string, color: string, ranges: ace.Range[]) {
     this._session = session;
@@ -25,12 +26,22 @@ export class AceSelectionMarker {
     this._ranges = ranges || [];
     this._selectionId = selectionId;
     this._id = null;
+    this._markerElement = document.createElement("div");
   }
 
-  public update(html: string[], markerLayer: any, session: ace.IEditSession, layerConfig: any): void {
+  public update(_: string[], markerLayer: any, session: ace.IEditSession, layerConfig: any): void {
+    while (this._markerElement.hasChildNodes()) {
+      this._markerElement.removeChild(this._markerElement.lastChild);
+    }
+
     this._ranges.forEach((range) => {
-      this._renderRange(html, markerLayer, session, layerConfig, range);
+      this._renderRange(markerLayer, session, layerConfig, range);
     });
+
+    this._markerElement.remove();
+    markerLayer.elt("remote-selection", "");
+    const parentNode = markerLayer.element.childNodes[markerLayer.i - 1] || markerLayer.element.lastChild;
+    parentNode.appendChild(this._markerElement);
   }
 
   public setSelection(ranges: ace.Range[]): void {
@@ -45,6 +56,10 @@ export class AceSelectionMarker {
     this._forceSessionUpdate();
   }
 
+  public getLabel(): string {
+    return this._label;
+  }
+
   public selectionId(): string {
     return this._selectionId;
   }
@@ -52,8 +67,40 @@ export class AceSelectionMarker {
   public markerId(): string {
     return this._id;
   }
-  private _renderRange(
-    html: string[], markerLayer: any, session: ace.IEditSession, layerConfig: any, range: ace.Range): void {
+
+  private _renderLine(bounds: ISelectionBounds): void {
+    const div = document.createElement("div");
+    div.className = "ace-multi-selection";
+    div.style.backgroundColor = this._color;
+
+    if (typeof bounds.height === "number") {
+      div.style.height = `${bounds.height}px`;
+    }
+
+    if (typeof bounds.width === "number") {
+      div.style.width = `${bounds.width}px`;
+    }
+
+    if (typeof bounds.top === "number") {
+      div.style.top = `${bounds.top}px`;
+    }
+
+    if (typeof bounds.left === "number") {
+      div.style.left = `${bounds.left}px`;
+    }
+
+    if (typeof bounds.bottom === "number") {
+      div.style.bottom = `${bounds.bottom}px`;
+    }
+
+    if (typeof bounds.right === "number") {
+      div.style.right = `${bounds.right}px`;
+    }
+
+    this._markerElement.append(div);
+  }
+
+  private _renderRange(markerLayer: any, session: ace.IEditSession, layerConfig: any, range: ace.Range): void {
     const screenRange: ace.Range = range.toScreenRange(session);
 
     let height: number = layerConfig.lineHeight;
@@ -64,12 +111,12 @@ export class AceSelectionMarker {
 
     if (screenRange.isMultiLine()) {
       // Render the start line
-      this._renderLine(html, {height, right, top, left});
+      this._renderLine({height, right, top, left});
 
       // from start of the last line to the selection end
       top = markerLayer.$getTop(screenRange.end.row, layerConfig);
       width = screenRange.end.column * layerConfig.characterWidth;
-      this._renderLine(html, {height, width, top, left: markerLayer.$padding});
+      this._renderLine({height, width, top, left: markerLayer.$padding});
 
       // all the complete lines
       height = (screenRange.end.row - screenRange.start.row - 1) * layerConfig.lineHeight;
@@ -77,42 +124,11 @@ export class AceSelectionMarker {
         return;
       }
       top = markerLayer.$getTop(screenRange.start.row + 1, layerConfig);
-      this._renderLine(html, {height, right, top, left: markerLayer.$padding});
+      this._renderLine({height, right, top, left: markerLayer.$padding});
     } else {
       width = (range.end.column - range.start.column) * layerConfig.characterWidth;
-      this._renderLine(html, {height, width, top, left});
+      this._renderLine({height, width, top, left});
     }
-  }
-
-  private _renderLine(html: string[], bounds: ISelectionBounds): void {
-    html.push(`<div title="${this._label}" class="ace-multi-selection" style="`);
-
-    if (typeof bounds.height === "number") {
-      html.push(` height: ${bounds.height}px;`);
-    }
-
-    if (typeof bounds.width === "number") {
-      html.push(` width: ${bounds.width}px;`);
-    }
-
-    if (typeof bounds.top === "number") {
-      html.push(` top: ${bounds.top}px;`);
-    }
-
-    if (typeof bounds.left === "number") {
-      html.push(` left: ${bounds.left}px;`);
-    }
-
-    if (typeof bounds.bottom === "number") {
-      html.push(` bottom: ${bounds.bottom}px;`);
-    }
-
-    if (typeof bounds.right === "number") {
-      html.push(` right: ${bounds.right}px;`);
-    }
-
-    html.push(`background-color: ${this._color}">`);
-    html.push("</div>");
   }
 
   private _forceSessionUpdate(): void {

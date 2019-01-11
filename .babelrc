@@ -5,7 +5,6 @@
         "browsers": ["last 2 versions"]
       }
     }],
-    "@babel/stage-3",
     "@babel/typescript"
   ],
   "plugins": [
