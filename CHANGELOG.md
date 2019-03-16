@@ -1,5 +1,11 @@
 # Change Log
 
+## [v0.4.0](https://github.com/convergencelabs/ace-collab-ext/tree/0.4.0) (2019-03-15)
+
+**Enhancements:**
+- [\#7](https://github.com/convergencelabs/ace-collab-ext/issues/7) Migrate from `brace` to `ace-builds`.
+
+
 ## [v0.3.0](https://github.com/convergencelabs/ace-collab-ext/tree/0.3.0) (2019-01-23)
 
 **Enhancements:**
@@ -12,6 +18,7 @@
 **Fixes:**
 
 - [\#4](https://github.com/convergencelabs/ace-collab-ext/pull/4) Improved selection when line wrapping is enabled.
+
 
 ## [v0.2.2](https://github.com/convergencelabs/ace-collab-ext/tree/0.2.2) (2018-05-01)
 

@@ -1,5 +1,5 @@
-import * as ace from "brace";
-import { AceRadarViewIndicator } from "./AceRadarViewIndicator";
+import {Ace} from "Ace-builds";
+import {AceRadarViewIndicator} from "./AceRadarViewIndicator";
 import {IRowRange} from "./RowRange";
 
 /**
@@ -8,9 +8,9 @@ import {IRowRange} from "./RowRange";
  * if the cursor is not in view.
  */
 export class AceRadarView {
+  private readonly _views: { [key: string]: AceRadarViewIndicator };
+  private readonly _editor: Ace.Editor;
   private _container: HTMLElement;
-  private _views: {[key: string]: AceRadarViewIndicator};
-  private _editor: ace.Editor;
 
   /**
    * Constructs a new AceRadarView bound to the supplied element and editor.
@@ -20,7 +20,7 @@ export class AceRadarView {
    * @param editor
    *          The Ace Editor to listen to events from.
    */
-  constructor(element: HTMLElement | string, editor: ace.Editor) {
+  constructor(element: HTMLElement | string, editor: Ace.Editor) {
     this._container = null;
     if (typeof element === "string") {
       this._container = document.getElementById(element);
@@ -39,7 +39,7 @@ export class AceRadarView {
    * @param id
    *          The unique id of the user.
    * @param label
-   *          A text label to displace for the user.
+   *          A text label to displAce for the user.
    * @param color
    *          The color to render the indicator with.
    * @param viewRows

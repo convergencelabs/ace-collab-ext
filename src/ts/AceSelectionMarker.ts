@@ -1,4 +1,4 @@
-import * as ace from "brace";
+import {Ace} from "ace-builds";
 
 export interface ISelectionBounds {
   height?: number;
@@ -9,17 +9,23 @@ export interface ISelectionBounds {
   right?: number;
 }
 
-export class AceSelectionMarker {
+export class AceSelectionMarker implements Ace.MarkerLike {
+  public range: Ace.Range;
+  public type: string;
+  public renderer?: Ace.MarkerRenderer;
+  public clazz: string;
+  public inFront: boolean;
+  public id: number;
 
-  private _session: ace.IEditSession;
+  private _session: Ace.EditSession;
   private readonly _label: string;
   private readonly _color: string;
-  private _ranges: ace.Range[];
+  private _ranges: Ace.Range[];
   private readonly _selectionId: string;
   private readonly _id: string;
   private readonly _markerElement: HTMLDivElement;
 
-  constructor(session: ace.IEditSession, selectionId: string, label: string, color: string, ranges: ace.Range[]) {
+  constructor(session: Ace.EditSession, selectionId: string, label: string, color: string, ranges: Ace.Range[]) {
     this._session = session;
     this._label = label;
     this._color = color;
@@ -29,7 +35,7 @@ export class AceSelectionMarker {
     this._markerElement = document.createElement("div");
   }
 
-  public update(_: string[], markerLayer: any, session: ace.IEditSession, layerConfig: any): void {
+  public update(_: string[], markerLayer: any, session: Ace.EditSession, layerConfig: any): void {
     while (this._markerElement.hasChildNodes()) {
       this._markerElement.removeChild(this._markerElement.lastChild);
     }
@@ -44,7 +50,7 @@ export class AceSelectionMarker {
     parentNode.appendChild(this._markerElement);
   }
 
-  public setSelection(ranges: ace.Range[]): void {
+  public setSelection(ranges: Ace.Range[]): void {
     if (ranges === undefined || ranges === null) {
       this._ranges = [];
     } else if (ranges instanceof Array) {
@@ -100,8 +106,8 @@ export class AceSelectionMarker {
     this._markerElement.append(div);
   }
 
-  private _renderRange(markerLayer: any, session: ace.IEditSession, layerConfig: any, range: ace.Range): void {
-    const screenRange: ace.Range = range.toScreenRange(session);
+  private _renderRange(markerLayer: any, session: Ace.EditSession, layerConfig: any, range: Ace.Range): void {
+    const screenRange: Ace.Range = range.toScreenRange(session);
 
     let height: number = layerConfig.lineHeight;
     let top: number = markerLayer.$getTop(screenRange.start.row, layerConfig);

@@ -2,9 +2,8 @@ import {src, dest, series} from "gulp";
 import insert from "gulp-insert";
 import webpackStream from "webpack-stream";
 import webpack from "webpack";
-import babel from "gulp-babel";
 import rename from "gulp-rename";
-import uglify from "gulp-uglify";
+import uglify from "gulp-uglify-es";
 import sourcemaps from "gulp-sourcemaps";
 import del from "del";
 import cleanCSS from "gulp-clean-css";
@@ -47,7 +46,8 @@ const minifyUmd = () =>
 
 const commonjs = () =>
   src("src/ts/*.ts")
-    .pipe(babel())
+    .pipe(tsProject())
+    .js
     .pipe(dest("dist/lib"));
 
 const typings = () =>

@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
+    "target": "es6",
     "module": "commonjs",
     "noUnusedLocals": true,
     "noUnusedParameters": true,

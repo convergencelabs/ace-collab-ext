@@ -1,10 +1,18 @@
-import * as ace from "brace";
+import {Ace} from "ace-builds";
 
 /**
  * Represents a marker of a remote users cursor.
  */
-export class AceCursorMarker {
-  private readonly _session: ace.IEditSession;
+export class AceCursorMarker implements Ace.MarkerLike {
+
+  public range: Ace.Range;
+  public type: string;
+  public renderer?: Ace.MarkerRenderer;
+  public clazz: string;
+  public inFront: boolean;
+  public id: number;
+
+  private readonly _session: Ace.EditSession;
   private readonly _label: string;
   private readonly _color: string;
   private readonly _cursorId: string;
@@ -13,7 +21,7 @@ export class AceCursorMarker {
   private readonly _cursorElement: HTMLDivElement;
   private readonly _tooltipElement: HTMLDivElement;
   private _visible: boolean;
-  private _position: ace.Position;
+  private _position: Ace.Point;
   private _tooltipTimeout: any;
 
   /**
@@ -24,11 +32,11 @@ export class AceCursorMarker {
    * @param color The css color of the cursor
    * @param position The row / column coordinate of the cursor marker.
    */
-  constructor(session: ace.IEditSession,
+  constructor(session: Ace.EditSession,
               cursorId: string,
               label: string,
               color: string,
-              position: number | ace.Position) {
+              position: number | Ace.Point) {
     this._session = session;
     this._label = label;
     this._color = color;
@@ -61,7 +69,7 @@ export class AceCursorMarker {
    * @param __ The ace edit session.
    * @param layerConfig
    */
-  public update(_: string[], markerLayer: any, __: ace.IEditSession, layerConfig: any): void {
+  public update(_: string[], markerLayer: any, __: Ace.EditSession, layerConfig: any): void {
     if (this._position === null) {
       return;
     }
@@ -104,7 +112,7 @@ export class AceCursorMarker {
    * Sets the location of the cursor marker.
    * @param position The position of cursor marker.
    */
-  public setPosition(position: number | ace.Position): void {
+  public setPosition(position: number | Ace.Point): void {
     this._position = this._convertPosition(position);
     this._forceSessionUpdate();
     this._tooltipElement.style.opacity = "1";
@@ -163,7 +171,7 @@ export class AceCursorMarker {
     (this._session as any)._signal("changeFrontMarker");
   }
 
-  private _convertPosition(position: number | ace.Position): ace.Position {
+  private _convertPosition(position: number | Ace.Point): Ace.Point {
     if (position === null) {
       return null;
     } else if (typeof position === "number") {

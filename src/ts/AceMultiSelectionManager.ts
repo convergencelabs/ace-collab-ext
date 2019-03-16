@@ -1,5 +1,5 @@
-import * as ace from "brace";
-import { AceSelectionMarker } from "./AceSelectionMarker";
+import {Ace} from "ace-builds";
+import {AceSelectionMarker} from "./AceSelectionMarker";
 
 /**
  * Implements multiple colored selections in the ace editor.  Each selection is
@@ -9,8 +9,8 @@ import { AceSelectionMarker } from "./AceSelectionMarker";
  */
 export class AceMultiSelectionManager {
 
-  private _selections: {[key: string]: AceSelectionMarker};
-  private _session: ace.IEditSession;
+  private readonly _selections: { [key: string]: AceSelectionMarker };
+  private readonly _session: Ace.EditSession;
 
   /**
    * Constructs a new AceMultiSelectionManager that is bound to a particular
@@ -19,7 +19,7 @@ export class AceMultiSelectionManager {
    * @param session
    *   The Ace EditSession to bind to.
    */
-  constructor(session: ace.IEditSession) {
+  constructor(session: Ace.EditSession) {
     this._selections = {};
     this._session = session;
   }
@@ -36,7 +36,7 @@ export class AceMultiSelectionManager {
    * @param ranges
    *   An array of ace ranges that specify the initial selection.
    */
-  public addSelection(id: string, label: string, color: string, ranges: ace.Range[]): void {
+  public addSelection(id: string, label: string, color: string, ranges: Ace.Range[]): void {
     if (this._selections[id] !== undefined) {
       throw new Error("Selection with id already defined: " + id);
     }
@@ -55,7 +55,7 @@ export class AceMultiSelectionManager {
    * @param ranges
    *   The array of ranges that specify the selection.
    */
-  public setSelection(id: string, ranges: ace.Range[]) {
+  public setSelection(id: string, ranges: Ace.Range[]) {
     const selection = this._getSelection(id);
 
     selection.setSelection(ranges);

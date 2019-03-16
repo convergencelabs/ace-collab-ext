@@ -1,10 +1,10 @@
-import * as ace from "brace";
-import { IIndexRange } from "./IndexRange";
-import { IRowRange } from "./RowRange";
+import {Ace} from "ace-builds";
+import {IIndexRange} from "./IndexRange";
+import {IRowRange} from "./RowRange";
 
 export class AceViewportUtil {
 
-  public static getVisibleIndexRange(editor: ace.Editor): IIndexRange {
+  public static getVisibleIndexRange(editor: Ace.Editor): IIndexRange {
     let firstRow: number = editor.getFirstVisibleRow();
     let lastRow: number = editor.getLastVisibleRow();
 
@@ -27,7 +27,7 @@ export class AceViewportUtil {
     };
   }
 
-  public static indicesToRows(editor: ace.Editor, startIndex: number, endIndex: number): IRowRange {
+  public static indicesToRows(editor: Ace.Editor, startIndex: number, endIndex: number): IRowRange {
     const startRow: number = editor.getSession().getDocument().indexToPosition(startIndex, 0).row;
     const endRow: number = editor.getSession().getDocument().indexToPosition(endIndex, 0).row;
 

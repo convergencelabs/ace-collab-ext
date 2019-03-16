@@ -1,5 +1,5 @@
-import * as ace from "brace";
-import { AceCursorMarker } from "./AceCursorMarker";
+import {Ace} from "ace-builds";
+import {AceCursorMarker} from "./AceCursorMarker";
 
 /**
  * Implements multiple colored cursors in the ace editor.  Each cursor is
@@ -9,8 +9,8 @@ import { AceCursorMarker } from "./AceCursorMarker";
  */
 export class AceMultiCursorManager {
 
-  private _cursors: {[key: string]: AceCursorMarker};
-  private _session: ace.IEditSession;
+  private readonly _cursors: { [key: string]: AceCursorMarker };
+  private readonly _session: Ace.EditSession;
 
   /**
    * Constructs a new AceMultiCursorManager that is bound to a particular
@@ -19,7 +19,7 @@ export class AceMultiCursorManager {
    * @param session
    *   The Ace EditSession to bind to.
    */
-  constructor(session: ace.IEditSession) {
+  constructor(session: Ace.EditSession) {
     this._cursors = {};
     this._session = session;
   }
@@ -36,7 +36,7 @@ export class AceMultiCursorManager {
    * @param position
    *   A 2-d position or linear index indicating the location of the cursor.
    */
-  public addCursor(id: string, label: string, color: string, position: number | ace.Position): void {
+  public addCursor(id: string, label: string, color: string, position: number | Ace.Point): void {
     if (this._cursors[id] !== undefined) {
       throw new Error(`Cursor with id already defined: ${id}`);
     }
@@ -55,7 +55,7 @@ export class AceMultiCursorManager {
    * @param position
    *   A 2-d position or linear index indicating the location of the cursor.
    */
-  public setCursor(id: string, position: number | ace.Position): void {
+  public setCursor(id: string, position: number | Ace.Point): void {
     const cursor: AceCursorMarker = this._getCursor(id);
 
     cursor.setPosition(position);

@@ -1,20 +1,20 @@
-import * as ace from "brace";
+import {Ace} from "ace-builds";
 import {IRowRange} from "./RowRange";
 
 export class AceRadarViewIndicator {
 
-  private _label: string;
-  private _color: string;
+  private readonly _label: string;
+  private readonly _color: string;
+  private readonly _editorListener: () => void;
+  private readonly _scrollElement: HTMLDivElement;
+  private readonly _cursorElement: HTMLDivElement;
+  private readonly _wrapper: HTMLDivElement;
   private _viewRows: IRowRange;
   private _cursorRow: number;
-  private _editor: ace.Editor;
+  private _editor: Ace.Editor;
   private _docLineCount: number;
-  private _editorListener: () => void;
-  private _scrollElement: HTMLDivElement;
-  private _cursorElement: HTMLDivElement;
-  private _wrapper: HTMLDivElement;
 
-  constructor(label: string, color: string, viewRows: IRowRange, cursorRow: number, editor: ace.Editor) {
+  constructor(label: string, color: string, viewRows: IRowRange, cursorRow: number, editor: Ace.Editor) {
     this._label = label;
     this._color = color;
     this._viewRows = viewRows;
@@ -44,7 +44,8 @@ export class AceRadarViewIndicator {
     this._scrollElement.addEventListener("click", () => {
       const middle = ((this._viewRows.end - this._viewRows.start) / 2) + this._viewRows.start;
 
-      this._editor.scrollToLine(middle, true, false, () => { /* no-op */ });
+      this._editor.scrollToLine(middle, true, false, () => { /* no-op */
+      });
     }, false);
 
     this._cursorElement = document.createElement("div");
@@ -53,7 +54,8 @@ export class AceRadarViewIndicator {
     this._cursorElement.title = this._label;
 
     this._cursorElement.addEventListener("click", () => {
-      this._editor.scrollToLine(this._cursorRow, true, false, () => { /* no-op */ });
+      this._editor.scrollToLine(this._cursorRow, true, false, () => { /* no-op */
+      });
     }, false);
 
     this._wrapper = document.createElement("div");
