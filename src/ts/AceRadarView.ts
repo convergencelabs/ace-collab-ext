@@ -1,4 +1,4 @@
-import {Ace} from "Ace-builds";
+import {Ace} from "ace-builds";
 import {AceRadarViewIndicator} from "./AceRadarViewIndicator";
 import {IRowRange} from "./RowRange";
 
