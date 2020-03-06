@@ -9,10 +9,21 @@ Install package with NPM and add it to your development dependencies:
 
 ```npm install --save-dev @convergencelabs/ace-collab-ext```
 
+
 ## Demo
 Go [here](https://examples.convergence.io/examples/ace/) to see a live demo of multiple cursors, multiple selections, and remote scrollbars (Visit on multiple browsers, or even better, point a friend to it too).  This uses [Convergence](https://convergence.io) to handle the synchronization of data and user actions. 
 
 ## Usage
+
+### CSS
+Be sure to include one of CSS files located in the css directory of the node modules: 
+
+* `css/ace-collab-ext.css`
+* `css/ace-collab-ext.min.css`
+
+How to do this will depend on how you are packaging and distributing your application. For example if you are bundling your css / sass / less you might be able to use an `@import` statement or you might `require` it. If you are hotlinking, you might need to at a `<link>` tag to your document.
+
+If you forget to include the styles, its likely that the remote cursors / selections will either not show up, or they will not properly move.
 
 ### Multi Cursor Manager
 The multi cursor manager allows you to easily render the cursors of other users
