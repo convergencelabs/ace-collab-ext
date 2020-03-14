@@ -7,11 +7,11 @@ Enhances the [Ace Editor](https://github.com/ajaxorg/ace) by adding the ability 
 
 Install package with NPM and add it to your development dependencies:
 
-For versions <= 0.4.0 (current):
-```npm install --save-dev @convergence/ace-collab-ext```
-
-For versions > 0.4.0 (future):
+For versions >= 0.5.0 (current):
 ```npm install --save-dev @convergencelabs/ace-collab-ext```
+
+For versions <= 0.4.0 (previous):
+```npm install --save-dev @convergence/ace-collab-ext```
 
 ## Demo
 Go [here](https://examples.convergence.io/examples/ace/) to see a live demo of multiple cursors, multiple selections, and remote scrollbars (Visit on multiple browsers, or even better, point a friend to it too).  This uses [Convergence](https://convergence.io) to handle the synchronization of data and user actions. 
