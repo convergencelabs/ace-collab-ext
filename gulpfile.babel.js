@@ -17,7 +17,7 @@ const tsProject = gulpTypescript.createProject("tsconfig.json", {
 });
 
 const copyFiles = () =>
-  src(["README.md", "LICENSE.txt", "package.json"])
+  src(["README.md", "LICENSE", "package.json"])
     .pipe(dest("dist"));
 
 const umd = () => {
