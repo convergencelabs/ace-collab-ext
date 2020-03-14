@@ -1,5 +1,13 @@
 # Change Log
 
+## [v0.5.0](https://github.com/convergencelabs/ace-collab-ext/tree/0.4.0) (2020-03-14)
+
+**Enhancements:**
+- Moves from the `@convergence` to `@convergencelabs` scope.
+
+**Fixes:**
+- [\#15](https://github.com/convergencelabs/ace-collab-ext/issues/15) Fixed bad module import in the AceRadarView.
+
 ## [v0.4.0](https://github.com/convergencelabs/ace-collab-ext/tree/0.4.0) (2019-03-15)
 
 **Enhancements:**
