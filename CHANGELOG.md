@@ -1,6 +1,14 @@
 # Change Log
 
-## [v0.5.0](https://github.com/convergencelabs/ace-collab-ext/tree/0.4.0) (2020-03-14)
+## [v0.6.0](https://github.com/convergencelabs/ace-collab-ext/tree/0.6.0) (2021-07-10)
+
+**Enhancements:**
+- Moved from webpack to rollup.
+- Removed gulp in favor of a straight node build.
+- Migrated from Travis CI to GitHub Actions.
+
+
+## [v0.5.0](https://github.com/convergencelabs/ace-collab-ext/tree/0.5.0) (2020-03-14)
 
 **Enhancements:**
 - Moves from the `@convergence` to `@convergencelabs` scope.

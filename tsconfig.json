@@ -1,14 +1,25 @@
 {
   "compilerOptions": {
-    "allowJs": false,
-    "allowSyntheticDefaultImports": true,
-    "target": "es6",
-    "module": "commonjs",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "pretty": true,
-    "skipLibCheck": true,
+    "target": "es5",
+    "module": "ES2020",
+    "outDir": "dist",
+    "preserveConstEnums": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "declaration": false,
+    "esModuleInterop": true,
     "sourceMap": true,
-    "noImplicitAny": true
-  }
+    "allowSyntheticDefaultImports": true,
+    "inlineSources": true,
+    "baseUrl": "./src/ts",
+    "lib": ["dom", "es6", "es7"]
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "build",
+    "dist",
+    "example"
+  ]
 }
