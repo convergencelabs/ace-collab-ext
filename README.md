@@ -1,5 +1,5 @@
 ## Ace Collaborative Extensions
-[![Build Status](https://travis-ci.org/convergencelabs/ace-collab-ext.svg?branch=master)](https://travis-ci.org/convergencelabs/ace-collab-ext)
+[![example workflow](https://github.com/convergencelabs/ace-collab-ext/actions/workflows/build.yml/badge.svg)](https://github.com/convergencelabs/ace-collab-ext/actions/workflows/build.yml)
 
 Enhances the [Ace Editor](https://github.com/ajaxorg/ace) by adding the ability to render cues about what remote users are doing in the system.
 
